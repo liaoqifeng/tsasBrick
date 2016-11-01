@@ -1,0 +1,386 @@
+html,body{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+	font-size:13px;
+	font-family:"Courier New", Courier, monospace;
+}
+ul{
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+}
+img{
+	border:0px;
+}
+a{
+	text-decoration:none;
+}
+.text{
+	border: 1px solid #999999;
+}
+.button{
+	height: 30px; 
+	line-height: 25px; 
+	padding-left: 10px; 
+	padding-right: 10px; 
+	margin-left: 5px; 
+	margin-right: 5px;
+}
+.radius{
+	border-top-left-radius: 40px;
+	border-top-right-radius: 40px;
+	border-bottom-left-radius: 40px;
+	border-bottom-right-radius: 40px;
+}
+#layout-panel{
+	width: 100%;
+	height: 100%;
+	border:0px;
+}
+#header-panel{
+	background-image:url(../images/titleBg.jpg);
+	border:0px;
+}
+#header-panel .header-t{
+	width:100%;
+	height:84px;
+}
+#header-panel .header-t .header-t-box{
+	height:84px;
+	width:320px;
+	float:right;
+	position:relative;
+}
+#header-panel .header-t .header-t-box .header-t-tool{
+	height:36px;
+	width:284px;
+	position:absolute;
+	background-image:url(../images/toolbar.png);
+	bottom:0px;
+}
+#header-panel .header-t .header-t-box .header-t-tool ul li{
+	float:left;
+	margin-top:8px;
+	width:60px;
+	text-align:center
+}
+#header-panel .header-b{
+	width:100%;
+	height:30px;
+}
+#header-panel .header-b .header-b-info{
+	width:200px;
+	height:100%;
+	text-align:center;
+	float:left;
+	margin-top:15px;
+}
+#header-panel .header-b .header-b-menu{
+	min-width:200px;
+	height:100%;
+	float:left;
+	margin-top:5px;
+}
+#header-panel .header-b .header-b-menu ul{
+	color:#92ccfc;
+}
+#header-panel .header-b .header-b-menu ul li{
+	float:left;
+	width:100px;
+	height:25px;
+	padding-top:10px;
+	text-align:center;
+	color:#92ccfc;
+	font-weight:bold;
+	cursor:pointer;
+	margin-right:5px;
+}
+#header-panel .header-b .header-b-menu ul li:hover{
+	color:#ffffff;
+	background-color:#70bc00;
+}
+.linked-menu{
+	color:#ffffff;
+	background-color:#70bc00;
+}
+#nav-panel{
+	background-color:#ececec;
+	border:1px solid #cdcdcd;
+	border-bottom:0px;
+}
+#nav-panel .nav-t{
+	width:100%;
+	height:43px;
+	padding:0px;
+	margin:0px;
+}
+#nav-panel .nav-t ul{
+	margin:0px;
+	padding:0px;
+	width:100%;
+}
+#nav-panel .nav-t li{
+	float:left;
+	list-style-type:none;
+}
+#nav-panel .nav-t li div{
+	width:111px;
+	vertical-align:middle;
+	padding-top:13px;
+	font-weight:bold;
+}
+#nav-panel .split-line{
+	width:100%;
+	height:2px;
+	border:0px;
+	background-image:url(../images/line.jpg);
+}
+#nav-panel .nav-menu{
+	width:100%;
+	height:100%;
+	border:0px;
+}
+#center-panel{
+	background-color: #ececec; 
+}
+.main-panel{
+	width:100%;
+	height:100%;
+	color:#fff;
+	float:right;
+	margin-right:-15px;
+	overflow:hidden;
+}
+.content_inner{
+	height:100%;
+	margin-right:15px;
+	overflow:auto;
+}
+.hide-panel{
+	height:100%;
+	float:left;
+	position:relative;
+	margin:0 auto;
+}
+.hide-panel .hide-panel-l{
+	height:100%;
+	background-image:url(../images/hidePanelline.jpg);
+	background-repeat:repeat-y;
+	float:left;
+	width:5px;
+}
+.hide-panel .hide-panel-b{
+	width:15px;
+	height:56px;
+	background-image:url(../images/hideButton.png);
+	position:absolute;
+	top:45%;
+	cursor:pointer;
+}
+#footer-panel{
+	background-color:#f7f7f7;
+	border-top:1px solid #cdcdcd;
+}
+.context-menu{
+	position: absolute;
+	border: 1px solid #AAAAAA;
+	background: #ffffff;
+	z-index: 9999999999;
+}
+.context-menu .selected{
+	background-color: #0088CC;
+}
+.context-menu ul li{
+	height:25px;
+	line-height: 25px;
+	padding-left: 5px;
+	padding-right: 5px;
+	cursor: pointer;
+}
+.masklayer{
+	width: 100%;
+	height:100%;
+	position: fixed;
+	background-color: #ECECEC;
+	z-index: 98;
+	filter:alpha(opacity=10);
+	-moz-opacity:0.1;
+	-khtml-opacity: 0.1;
+	opacity: 0.1;
+}
+.colorPicker{
+	width:24px;
+	height:24px;
+	background-color: red;
+}
+.colorChange{
+	background-color:#ffffff;
+	text-align: right;
+}
+.siderBar{
+    height: 4px;
+    background:#F7F7F7;
+    border:solid 1px #3e3e3e;
+    position: relative;
+    width: 100%;
+    margin-top: 25px;
+}
+.siderBar .jslider{
+	height: 17px;
+	width: 10px;
+    background:url(../images/slider.gif) center 0 no-repeat;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top:-8px;
+    left : 1px;
+}
+.siderBar .pol{
+	background-image: none;
+	background-attachment: scroll;
+	background-repeat: repeat;
+	background-position-x: 0%;
+	background-position-y: 0%;
+	background-size: auto;
+	background-origin: padding-box;
+	background-clip: border-box;
+	background-color: #ffffff;
+}
+.dialog{
+	background: #ffffff;
+	border: 1px solid #AAAAAA;
+	position: fixed;
+	z-index:99;
+	top:150px;
+	left:0px;
+	right:0px;
+	margin-left:auto;
+	margin-right:auto;
+	width:300px;
+	font-size: 14px;
+}
+.dialog .title{
+	height:35px;
+	line-height: 35px;
+	background-color: #ECECEC;
+	border-bottom: 1px solid #AAAAAA;
+	padding-left: 5px;
+	font-weight: bold;
+}
+.dialog .content .condition{
+	width:96%;
+	height:30px;
+	line-height: 30px;
+	margin-top:10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.dialog .content .box{
+	width:96%;
+	height:260px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.dialog .content .short{
+	height:170px;
+}
+.dialog .content .box .box-l{
+	float: left;
+	width:70%;
+}
+.dialog .content .box .box-r{
+	float: right;
+	width:25%;
+}
+.dialog .content .box .box-b-l{
+	float: left;
+	width:70%;
+}
+.dialog .content .box .box-b-r{
+	float: right;
+	width:28%;
+}
+.dialog .content .box .box-b-r li{
+	height:40px;
+	line-height: 40px;
+}
+.brick-insert{
+	width:1000px;
+	top:40px;
+}
+.brick-info{
+	width:500px;
+	height:320px;
+}
+.brick-info td{
+	width: 50%;
+	height: 30px;
+}
+.brick-pro{
+	width:400px;
+	height:280px;
+	top:60px;
+}
+.brick-pro td{
+	height: 30px;
+	padding-left: 20px;
+}
+.brick-lock{
+	width:600px;
+	height:500px;
+	top:40px;
+}
+.brick-lock td{
+	height: 35px;
+	padding-left: 20px;
+}
+.brick-del{
+	width:600px;
+	height: 360px;
+	top:40px;
+}
+.brick-del td{
+	height: 30px;
+	padding-left: 20px;
+}
+
+.animate-one{
+	width:100%;
+	height:100%;
+	position:absolute;
+	z-index:999999999;
+}
+.animate-one .left-up{
+	position:absolute;
+	width:50%;
+	height:50%;
+	top:0px;
+	left:0px;
+	background: #eff1f3;
+}
+.animate-one .right-up{
+	position:absolute;
+	width:50%;
+	height:50%;
+	top:0px;
+	right:0px;
+	background: #eff1f3;
+}
+.animate-one .left-down{
+	position:absolute;
+	width:50%;
+	height:50%;
+	left:0px;
+	bottom: 0px;
+	background: #eff1f3;
+}
+.animate-one .right-down{
+	position:absolute;
+	width:50%;
+	height:50%;
+	right:0px;
+	bottom: 0px;
+	background: #eff1f3;
+}

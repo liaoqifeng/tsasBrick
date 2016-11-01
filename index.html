@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>砖墙图</TITLE>
+<META content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link href="css/layout-default-latest.css" rel="stylesheet" type="text/css" />
+<link href="css/sneaks/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+<link href="css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.layout.js"></script>
+<script type="text/javascript" src="js/jquery.ui.js"></script>
+<script type="text/javascript" src="js/jquery.ztree.js"></script>
+<script type="text/javascript" src="js/jquery.tsas.js"></script>
+<style type="text/css">
+	*{
+		outline:none;margin:0px; padding:0px; 
+	}
+	html,body{
+		margin:0px; padding:0px; width:100%; height:100%;
+	}
+	.reset{
+		padding:0px; margin:0px; border:0px;
+	}
+	.layout-leftbar{
+		width:100%;height:100%; background-image:url(images/leftBar.gif); background-repeat:repeat-y;
+	}
+	.layout-buttombar{
+		width:100%;height:100%; background-image:url(images/bottomBar.gif); background-repeat:repeat-x;line-height:100%; overflow:hidden;
+	}
+	.layout-centerbox{
+		width:100%;height:100%;padding:0px;margin:0px; background-color:red;
+	}
+	.left-menu-panel{
+		width:100%;height:100%; background-color:#fff;
+	}
+	.buttom-menu-panel{
+		width:100%;height:100%; background-color:#ECECEC;display: none;background-image: -moz-linear-gradient(top, #8fa1ff, #3757fa); /* Firefox */background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff4f02), color-stop(1, #8f2c00)); /* Saf4+, Chrome */filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c6ff00', endColorstr='#538300', GradientType='0'); /* IE*/
+	}
+	.date-menu-panel{
+		width:100%;height:100%; display: block;background-image: -moz-linear-gradient(top, #8fa1ff, #3757fa); /* Firefox */background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff4f02), color-stop(1, #8f2c00)); /* Saf4+, Chrome */filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c6ff00', endColorstr='#538300', GradientType='0'); /* IE*/
+	}
+	.date-menu-panel .item{
+		border-bottom: 1px solid #fff; border-right: 1px solid #fff; position: absolute; text-align: center; cursor: pointer;
+	}
+	.date-menu-panel .box{
+		width:100% height:50%; position: relative; overflow: hidden;
+	}
+	.trademark_btn{
+		width:30px;height:126px;background-image:url(images/trademarkIcon.png);margin:0 auto;border:0px;background-color:transparent;cursor:pointer;
+	}
+	.function_btn{
+		width:90px;height:28px; background-image:url(images/functionIcon.png);border:0px; background-color:transparent;margin:3px 0px 0px 33px; cursor:pointer;
+	}
+	.dateSel_btn{
+		width:90px;height:28px; background-image:url(images/dateIcon.png);border:0px; background-color:transparent;margin-top:3px; cursor:pointer;
+	}
+	.tabs{
+		font: 70% Trebuchet MS, sans-serif;
+	}
+</style>
+<script type="text/javascript">
+$(document).ready(function () {
+	var trademark_tabs;
+	$('body').layout({
+		applyDefaultStyles: false,
+		north: {
+			size:0,
+			spacing_open:1,
+			closable:false,
+			spacing_closed:1,
+			initClosed:true
+		},
+		west: {
+			size:33,
+			spacing_open:0,
+			spacing_closed:0
+		},
+		south: {
+			size:31,
+			closable:false,
+			spacing_open:0,
+			spacing_closed:0
+		}
+	});
+	var $centerBoxLayout = $('#centerBox').layout({
+		applyDefaultStyles: false,
+		north: {
+			size:0,
+			spacing_open:1,
+			closable:false,
+			spacing_closed:1,
+			initClosed:true
+		},
+		west: {
+			size:200,
+			spacing_open:0,
+			spacing_closed:0,
+			initClosed:true
+		},
+		south: {
+			size:80,
+			spacing_open:0,
+			spacing_closed:0,
+			initClosed:true
+		},
+		onload_end: function(){
+			trademark_tabs = $( "#tabs" ).tabs({ 
+				heightStyle: "fill" ,
+				create: function( event, ui ) {
+					
+				},
+				activate: function( event, ui ) {
+					//alert(ui.html());
+				}
+			});
+		}
+	});
+	$("#selectTrademark").click(function(){
+		$centerBoxLayout.slideToggle("west");
+	});
+	$("#funtionButton").click(function(){
+		$centerBoxLayout.slideToggle("south");
+		$(".buttom-menu-panel").show();
+		$(".date-menu-panel").hide();
+		
+		$tabIndex = trademark_tabs.tabs('option', 'selected');
+    	var code = $("#tabs ul>li a").eq($tabIndex).data("code");
+		//alert($("#iframe_"+code).attr("src"));
+	});
+	$("#dateSelectButton").click(function(){
+		$centerBoxLayout.slideToggle("south");
+		$("#dateSelectPanel").empty().initDateSelectPanel();
+		$(".buttom-menu-panel").hide();
+		$(".date-menu-panel").show();
+	});
+	
+	var setting = {
+		view: {
+			showIcon: true
+		},
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			onClick: function(event, treeId, treeNode){
+				var tabTemplate = "<li><a href='#{href}' data-code='#{id}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'></span></li>";
+				var label = treeNode.name,
+				    id = treeNode.id,
+					li = $( tabTemplate.replace( /#\{href\}/g, "#" + id ).replace( /#\{label\}/g, label ).replace( /#\{id\}/g, id )),        
+					tabContentHtml = treeNode.name;       
+					trademark_tabs.find( ".ui-tabs-nav" ).append( li );      
+					trademark_tabs.append( "<div id='" + id + "' style='padding:0px; margin:0px; border:0px;'>" + tabContentHtml + "</div>" );
+					trademark_tabs.tabs( "refresh" );
+					trademark_tabs.tabs('select', '#' + id);
+
+			}
+		}
+	};
+
+	var zNodes =[
+		{ id:1, pId:0, name:"大前门", open:true},
+		{ id:111, pId:1, name:"15#软包大前门"},
+		{ id:112, pId:1, name:"60#大前门"},
+		{ id:2, pId:0, name:"梗"},
+		{ id:121, pId:2, name:"梗"},
+		{ id:122, pId:2, name:"5#梗"},
+		{ id:3, pId:0, name:"红双喜"},
+		{ id:131, pId:3, name:"54#红双喜"}
+	];
+	$.fn.zTree.init($("#trademarkTree"), setting, zNodes);
+	trademark_tabs.delegate( "span.ui-icon-close", "click", function() {
+		var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+		$( "#" + panelId ).remove();
+		trademark_tabs.tabs( "refresh" );
+	});
+});
+</script>
+
+</HEAD>
+<body onselectstart="return false;">
+    <div class="ui-layout-north"></div>
+    <div class="ui-layout-west reset">
+        <div class="layout-leftbar">
+        	<button id="selectTrademark" class="trademark_btn">&nbsp;</button>
+        </div>
+    </div>
+    <div class="ui-layout-center reset">
+    	<div id="centerBox" class="layout-centerbox">
+        	<div class="ui-layout-north"></div>
+            <div class="ui-layout-west reset">
+                <div class="left-menu-panel">
+                	<ul id="trademarkTree" class="ztree"></ul>
+                </div>
+            </div>
+            
+            <div class="ui-layout-center reset">
+                <div id="tabs" class="tabs reset">
+                    <ul>
+                        <li><a href="#tabs-1" data-code='110'>15#大前门</a><span class="ui-icon ui-icon-close" role="presentation">&nbsp;</span></li>
+                    </ul>
+                    <div id="tabs-1" style="padding:0px; margin:0px; border:0px;">
+                    	<div style="width:100%; height:100%; overflow:hidden;">
+                        	<iframe id="iframe_110" src="main.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ui-layout-south reset">
+                <div class="buttom-menu-panel">buttom</div>
+                <div id="dateSelectPanel" class="date-menu-panel"></div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="ui-layout-south reset">
+        <div class="layout-buttombar">
+        	<button id="funtionButton" class="function_btn">&nbsp;</button>
+            <button id="dateSelectButton" class="dateSel_btn">&nbsp;</button>
+        </div>
+    </div>
+</body>
+</HTML>

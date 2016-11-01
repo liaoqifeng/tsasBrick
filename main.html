@@ -1,0 +1,454 @@
+﻿<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>砖墙图</TITLE>
+<META content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<link href="css/layout-default-latest.css" rel="stylesheet" type="text/css" />
+<link href="css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<link href="css/easyui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/jquery.layout.js"></script>
+<script type="text/javascript" src="js/jquery.json.js"></script>
+<script type="text/javascript" src="js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="js/jquery.colorpicker.js"></script>
+<script type="text/javascript" src="js/jquery.utils.js"></script>
+<script type="text/javascript" src="js/jquery.object.js"></script>
+<script type="text/javascript" src="js/data.js"></script>
+<script type="text/javascript" src="js/data1.js"></script>
+<script type="text/javascript" src="js/jquery.tsas.js"></script>
+
+<style type="text/css">
+	*{
+		outline:none;margin:0px; padding:0px;
+	}
+	html,body{
+		margin:0px; padding:0px; width:100%; height:100%;font-size:13px; font-family:arial,courier new,courier,"宋体",monospace; font-weight:normal; -moz-user-select: none;
+	}
+	.reset{
+		padding:0px; margin:0px; border:0px;
+	}
+	#container{
+		margin:0px; padding:0px; width:100%; height:100%;
+	}
+	.layout-tools{
+		width:100%; height:100%; background-color:#000033;
+	}
+	.layout-tools ul{
+		list-style-type: none;
+	}
+	.layout-tools ul li{
+		float: left; color:#fff; margin-left: 20px; line-height: 40px; height: 40px;
+	}
+	.layout-buttombar{
+		width:100%;height:100%; background-image:url(images/bottomBar.gif); background-repeat:repeat-x;line-height:100%; overflow:hidden;
+	}
+	#leftBox{
+		width:100%;height:100%; background-image:url(images/rolePanelBG.png); background-repeat:repeat-y; position: relative; overflow: hidden;
+	}
+	#cornerBox{
+		width:100%; height:64px; background-image:url(images/cornerPanelBG.png); background-repeat:repeat-x;
+	}
+	.cornerBrick{
+		width:100%; height:18.5px; line-height:18.5px; border-top:1px solid #738790; text-align:center; color:#fff;
+	}
+	.cornerBrick ul{
+		list-style-type:none;
+	}
+	.cornerBrick ul li{
+		float:left; padding-top:1px;
+	}
+	#roleBox{
+		width:100%; overflow:hidden;
+	}
+	#rolePanel{
+		width:100%; 
+	}
+	#mainBox{
+		overflow:hidden; position: relative;
+	}
+	#dateBox{
+		width:100%;height:64px; overflow: hidden;
+	}
+	#datePanel{
+		height:64px; background-image:url(images/datePanelBG.png); background-repeat:repeat-x; color:#fff; position: relative; cursor: default;
+	}
+	#brickBox{
+		width:100%; overflow: hidden; position: relative;
+	}
+	#brickPanel{
+		width:100%; position:relative;
+	}
+	.rel-over{
+		position: relative; overflow: hidden;
+	}
+</style>
+<script type="text/javascript">
+$(document).ready(function () {
+	$(document).bind("contextmenu",function(e){  
+		return false;
+	});
+	var trademark_tabs;
+	var $centerBoxLayout = $('#container').layout({
+		applyDefaultStyles: false,
+		north: {
+			size:40,
+			spacing_open:0,
+			closable:false,
+			spacing_closed:0
+		},
+		west: {
+			size:200,
+			spacing_open:0,
+			spacing_closed:0
+		},
+		south: {
+			size:100,
+			closable:false,
+			spacing_open:0,
+			spacing_closed:0,
+			initClosed:true
+		},
+		onload_end: function(){
+			$("#roleBox").height($("#leftBox").height()-$("#cornerBox").height());
+			$.BindingUtils.bindCss($("#brickBox"),"height",$("#roleBox"),"height");
+			$.fn.tsasBrick();
+			$("#dateTimeSlider").rangeSlider();
+		}
+	});
+
+});
+</script>
+
+</HEAD>
+<body onselectstart="return false;">
+	<div id="container">
+		<div class="ui-layout-north reset">
+	    	<div class="layout-tools">
+				<ul>
+					<li><h2 style="font-size: 17px;">15#软包大前门</h2></li>
+					<li><h2 id="dateLabel" style="font-size: 17px;width: 100px;">2013年</h2></li>
+					<li><div id="dateTimeSlider"></div></li>
+					<li><input type="button" id="colorPickerButton" value="选择颜色" /></li>
+					<li><input type="button" id="ingredientsButton" value="化学成份" /></li>
+					<li></li>
+				</ul>
+	    	</div>
+	    </div>
+	    <div class="ui-layout-west reset rel-over">
+	    	<div id="leftBox">
+	        	<div id="cornerBox">
+	            	<div class="cornerBrick">日期</div>
+	                <div class="cornerBrick" style="border-bottom:0px;">
+	                	<ul>
+	                    	<li style="width:50%; text-align:right;">批次：</li>
+	                        <li><span id="batchLabel">499.00</span></li>
+	                    </ul>
+	                </div>
+	                <div class="cornerBrick" style="border-bottom:0px;">
+	                	<ul>
+	                    	<li style="width:50%; text-align:right;">产量：</li>
+	                        <li><span id="yieldLabel">1000</span></li>
+	                    </ul>
+	                </div>
+	            </div>
+	        	<div id="roleBox">
+	        		<div id="rolePanel"></div>
+	        	</div>
+	        </div>
+	    </div>
+	    <div class="ui-layout-center reset rel-over">
+	    	<div id="mainBox">
+	    		<div id="dateBox">
+		            <div id="datePanel"></div>
+		        </div>
+		        <div id="brickBox">
+		        	<div id="brickPanel"></div>
+		       	</div>
+	    	</div>
+	    </div>
+	    <div class="ui-layout-south reset" style="background-color:gray;"></div>
+	</div>
+</body>
+
+
+<script id="insertBrickTemplate" type="text/x-jquery-tmpl">  
+	<div class="dialog brick-insert">
+		<div class="title">插入砖块前</div>
+		<div class="content">
+			<div class="condition">
+				<select style="width: 120px;">
+					<option value="1">云南</option>
+				</select>
+				<select style="width: 120px;">
+					<option value="1">云南</option>
+				</select>
+			</div>
+			<div class="box">
+				<div class="box-l"><table id="leafTab"></table></div>
+				<div class="box-r">
+					<table id="bundleTab"></table><br >
+					<table id="qualityTab"></table>
+				</div>
+			</div>
+			<div class="condition"><h4>烟叶使用情况:</h4></div>
+			<div class="box short">
+				<div class="box-b-l"><table id="leafUseTab"></table></div>
+				<div class="box-b-r">
+					<ul>
+						<li>烟叶名称：云南曲靖X21混打片烟烤烟</li>
+						<li>插入量：<input type="text" class="text"/></li>
+						<li>
+							<button class="button">确定</button>
+							<button class="button cancel">取消</button>
+						</li>
+					</ul>					
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="brickInfoTemplate" type="text/x-jquery-tmpl">
+	<div class="dialog brick-info">
+		<div class="title">查询砖块信息</div>
+		<div class="content">
+			<div class="box">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td colspan="2">烟叶名称：{{= leafName}}</td>
+					</tr>
+					<tr>
+						<td>烟叶类别：{{= leafSort}}</td>
+						<td>烟叶形态：{{= leafTorrefy}}</td>
+					</tr>
+					<tr>
+						<td>烟叶年份：{{= leafYear}}</td>
+						<td>烟叶产地：{{= leafProduceArea}}</td>
+					</tr>
+					<tr>
+						<td>烟叶等级：{{= leafGrade}}</td>
+						<td>目前耗用量：{{= consume}}</td>
+					</tr>
+					<tr>
+						<td>库存类型：{{= storageTypeText}}</td>
+						<td>是否主料烟：{{= main}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">耗用时间段：{{= beginDate}}~{{= endDate}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">是否锁定：{{= leafName}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">{{= leafName1}}</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><button class="button cancel">关闭</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="brickPropertyTemplate" type="text/x-jquery-tmpl">
+	<div class="dialog brick-pro">
+		<div class="title">修改烟叶属性</div>
+		<div class="content">
+			<div class="box">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td >烟叶名称：{{= leafName}}</td>
+					</tr>
+					<tr>
+						<td >烟叶年份：{{= leafYear}}</td>
+					</tr>
+					<tr>
+						<td >耗用量：{{= consume}}</td>
+					</tr>
+					<tr>
+						<td >耗用时间段：{{= beginDate}}~{{= endDate}}</td>
+					</tr>
+					<tr>
+						<td >是否是主料烟：<input type="checkbox" id="isMain"/></td>
+					</tr>
+					<tr>
+						<td >&nbsp;</td>
+					</tr>
+					<tr>
+						<td align="center"><button id="submitPropertyButton" class="button">确定</button><button class="button cancel">取消</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="brickLockTemplate" type="text/x-jquery-tmpl">
+	<div class="dialog brick-lock">
+		<div class="title">锁定烟叶</div>
+		<div class="content">
+			<div class="box">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>烟叶名称：{{= leafName}}</td>
+						<td>烟叶年份：{{= leafYear}}</td>
+					</tr>
+					<tr>
+						<td >耗用量：{{= consume}}</td>
+						<td >耗用时间段：{{= beginDate}}~{{= endDate}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">其它使用此烟叶的情况：</td>
+					</tr>
+					<tr>
+						<td colspan="2"><table id="otherUseTab"></table></td>
+					</tr>
+					<tr>
+						<td>
+							<select>
+								<option value="1">锁定使用量</option>
+								<option value="2">锁定开始使用时间</option>
+								<option value="3">锁定结束使用时间</option>
+								<option value="4">锁定使用量+开始使用时间</option>
+								<option value="5">锁定使用时间段</option>
+							</select>
+						</td>
+						<td>锁定耗用量：<input type="text" class="text"/></td>
+					</tr>
+					<tr>
+						<td >开始锁定时间：{{= beginDate}}</td>
+						<td >结束锁定时间：{{= endDate}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">锁定耗用量：<input type="text" class="text"/></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><button id="submitPropertyButton" class="button">确定</button><button class="button cancel">取消</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="brickDeleteTemplate" type="text/x-jquery-tmpl">
+	<div class="dialog brick-del">
+		<div class="title">删除烟叶</div>
+		<div class="content">
+			<div class="box">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>烟叶名称：{{= leafName}}</td>
+						<td>烟叶年份：{{= leafYear}}</td>
+					</tr>
+					<tr>
+						<td >耗用量：{{= consume}}</td>
+						<td >耗用时间段：{{= beginDate}}~{{= endDate}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<span style="margin-right: 15px;"><input type="radio" />替代关系删除</span>
+							<span style="margin-right: 15px;"><input type="radio" />按时间点删除</span>
+							<span style="margin-right: 15px;">开始删除时间：<input id="txtStartDate" type="text"/></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">烟叶使用情况：</td>
+					</tr>
+					<tr>
+						<td colspan="2"><table id="leafUseTab"></table><br/></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><button id="submitPropertyButton" class="button">确定</button><button class="button cancel">取消</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="insertRoleTemplate" type="text/x-jquery-tmpl">  
+	<div class="dialog brick-insert">
+		<div class="title">新增角色</div>
+		<div class="content">
+			<div class="condition">
+				<select style="width: 120px;">
+					<option value="1">云南</option>
+				</select>
+				<select style="width: 120px;">
+					<option value="1">云南</option>
+				</select>
+			</div>
+			<div class="box">
+				<div class="box-l"><table id="leafTab"></table></div>
+				<div class="box-r">
+					<table id="bundleTab"></table><br >
+					<table id="qualityTab"></table>
+				</div>
+			</div>
+			<div class="condition"><h4>烟叶使用情况:</h4></div>
+			<div class="box short">
+				<div class="box-b-l"><table id="leafUseTab"></table></div>
+				<div class="box-b-r">
+					<ul>
+						<li>烟叶名称：云南曲靖X21混打片烟烤烟</li>
+						<li>插入量：<input type="text" class="text"/></li>
+						<li>
+							<button class="button">确定</button>
+							<button class="button cancel">取消</button>
+						</li>
+					</ul>					
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="updateRoleTemplate" type="text/x-jquery-tmpl">
+	<div class="dialog brick-del">
+		<div class="title">修改角色</div>
+		<div class="content">
+			<div class="box">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>烟叶名称：{{= leafName}}</td>
+						<td>烟叶年份：{{= leafYear}}</td>
+					</tr>
+					<tr>
+						<td >耗用量：{{= consume}}</td>
+						<td >耗用时间段：{{= beginDate}}~{{= endDate}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<span style="margin-right: 15px;"><input type="radio" />替代关系删除</span>
+							<span style="margin-right: 15px;"><input type="radio" />按时间点删除</span>
+							<span style="margin-right: 15px;">开始删除时间：<input id="txtStartDate" type="text"/></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">烟叶使用情况：</td>
+					</tr>
+					<tr>
+						<td colspan="2"><table id="leafUseTab"></table><br/></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><button id="submitPropertyButton" class="button">确定</button><button class="button cancel">取消</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="animateTemplate" type="text/x-jquery-tmpl">
+	<div class="animate-one">
+		<div class="left-up"></div>
+		<div class="right-up"></div>
+		<div class="left-down"></div>
+		<div class="right-down"></div>
+	</div>
+</script>
+</HTML>

@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>砖墙图</TITLE>
+<META content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<link href="css/layout-default-latest.css" rel="stylesheet" type="text/css" />
+<link href="css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<link href="css/easyui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<style>
+ul li{
+	height: 35px;
+}
+.ac_conteiner {
+	
+}
+.ac_input {
+	 border-right-width: 0px !important; text-indent: 2px; padding-left: 1px; padding-right: 1px; font-family: sans-serif; border-top-width: 0px !important; border-bottom-width: 0px !important; height: 16px; font-size: 1em; border-left-width: 0px !important;border-radius: 4px; 
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+}
+.ac_img {
+	display:none;width: 18px; background: url(../images/select.gif); float: right; height: 20px; cursor: pointer; vertical-align:bottom; margin-top:2px;
+}
+.ac_results {
+	z-index: 10000; border-bottom: #e3e4e8 1px solid; position: fixed; border-left: #e3e4e8 1px solid; padding-bottom: 0px; overflow-x: hidden; overflow: auto; background-color: white; list-style-type: none; margin: 0px 0px 0px -1px; padding-left: 0px; padding-right: 0px; display: none; border-top: #e3e4e8 1px solid; border-right: #e3e4e8 1px solid; padding-top: 0px; _margin-left: -1px; _margin-top: -1px
+}
+.ac_results div {
+	padding-left: 2px; font-family: sans-serif; white-space: nowrap; font-size: 1em; overflow: auto;
+}
+.ac_over {
+	background-color: #3399ff; color: #fff; cursor: pointer
+}
+.ac_match {
+	padding-bottom: 0px; margin: 0px; padding-left: 0px; padding-right: 0px; color: ; text-decoration: underline; padding-top: 0px
+}
+.ac_item{
+	height:20px; line-height:20px; border-bottom:1px dashed #e3e4e8; text-align:left;
+}
+.ac_item_move{
+	background-color:#f6f8fa;
+}
+html:first-child .ac_results {
+	overflow: auto
+}
+
+</style>
+<script type="text/javascript">
+	function Hashtable() {
+    this._hash = new Object();
+    this.put = function(key, value) {
+        if (typeof (key) != "undefined") {
+            if (this.containsKey(key) == false) {
+                this._hash[key] = typeof (value) == "undefined" ? null : value;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    this.remove = function(key) { delete this._hash[key]; }
+    this.size = function() { var i = 0; for (var k in this._hash) { i++; } return i; }
+    this.get = function(key) { return this._hash[key]; }
+    this.containsKey = function(key) { return typeof (this._hash[key]) != "undefined"; }
+    this.clear = function() { for (var k in this._hash) { delete this._hash[k]; } }
+}
+(function($) {
+    $.fn.extend({
+        dropdown: function(options) {
+            var defaults = {
+                autocomplete:true,
+				width:150,
+				height:250,
+				data:[{"dm":123,"mc":"ab"},{"dm":123,"mc":"ac"},{"dm":123,"mc":"北京"},{"dm":123,"mc":"we"},{"dm":123,"mc":"hh"},{"dm":123,"mc":"k"}],
+				text:"mc",
+				value:"dm",
+				model:"position",
+				defaultValue:null,
+				match:true,//是否开启自动匹配功能
+				css:null,
+				callback:null
+            };
+            options = $.extend(defaults, options);
+            if(options.defaultValue != null){
+				var d = options.data;
+				if(d != null && d.length > 0){
+					for(var i=0;i<d.length;i++){
+						var t = "", v = "";
+						var flag = false;
+						for(var key in d[i]){
+							if(options.text == key){
+								t = d[i][key];
+							}
+							if(options.value == key){
+								v = d[i][key];
+							}
+							
+							if(parseInt(v) == parseInt(options.defaultValue)){
+								$(this).val(t).data("data",{"text":t,"value":v});
+								flag = true;
+							}
+						}
+						if(flag)
+							break;
+					}
+				}
+			}
+            return this.each(function() {
+                var o = options;
+				var $this = $(this).width(o.width-2);
+				var ev = {
+					show:function(e){
+						var d = e.data;
+						//d.obj.show();
+						//$this.data("result").show();
+					},
+					hide:function(e){
+						if($.trim($this.val()) == "")
+							$this.data("data",null);
+						var data = e.data;
+						data.obj.remove();
+						var searchKey = $this.val();
+						var d = o.data;
+						if(d != null && d.length > 0){
+							for(var i=0;i<d.length;i++){
+								var t = "",
+									v = "";
+								for(var key in d[i]){
+									if(o.text == key){
+										t = d[i][key];
+									}
+									if(o.value == key){
+										v = d[i][key];
+									}
+								}
+								if(t == searchKey){
+									$this.val(t).data("data",{"text":t,"value":v});
+								}
+							}
+						}
+						var $results = $this.data("result",null);
+						$this.unbind("mouseenter").unbind("mouseleave");
+					},
+					setItems:function(type){
+						var d = o.data;
+						var setValue = $this.data("setValue");
+						if(setValue != null && setValue != undefined){
+							d = setValue;
+						}
+						var searchKey = $this.val();
+						var _items = '';
+						if(d != null && d.length > 0){
+							for(var i=0;i<d.length;i++){
+								var t = "",
+									v = "";
+								for(var key in d[i]){
+									if(o.text == key){
+										t = d[i][key];
+									}
+									if(o.value == key){
+										v = d[i][key];
+									}
+								}
+								if(t == searchKey){
+									$this.data("data",{"text":t,"value":v});
+								}
+								if(o.match){
+									if(type == 1){
+										if(t.toUpperCase().indexOf(searchKey.toUpperCase()) != 0){
+											continue;	
+										}
+									}
+									if(type == 2){
+										if(d[i].pinyin == null || d[i].pinyin == undefined)
+											continue;
+										if(d[i].pinyin.toUpperCase().indexOf(searchKey.toUpperCase()) != 0){
+											continue;	
+										}
+									}
+								}
+								_items += '<div v="'+v+'" class="ac_item"><span class="ac_match"></span>'+t+'</div>';
+							}	
+						}
+						return _items;
+					},
+					loadData:function(){
+						var $results = $this.data("result");
+						if($results == undefined || $results == null){
+							$results = $('<div style="width: '+(o.width)+'px;max-height:'+o.height+'px; display: none;overflow: auto;" class="ac_results"></div>').prependTo("body");
+						}
+						$results.empty();
+						if(o.model == "position"){
+							var x = $this.position().left + 1;
+							var y = $this.position().top + $this.outerHeight();
+							$results.css({"top":y,"left":x});
+						}else{
+							var x = $this.offset().left + 1;
+							var y = $this.offset().top + $this.outerHeight();
+							$results.css({"top":y,"left":x});
+						}
+						
+						$this.data("result",$results);
+						var _items = ev.setItems(1);//按名字匹配
+						if(_items == ''){
+							_items = ev.setItems(2);//按拼音首字母匹配
+						}
+						if(_items != '' && _items != null && _items != undefined){
+							var r = $(_items).appendTo($results.show());
+						}else{
+							$results.hide();
+						}
+						//
+						
+						$results.bind("mouseenter",{"obj":$results},ev.show).bind("mouseleave",{"obj":$results},ev.hide).find("div.ac_item").bind("mouseenter",null,function(){
+							$(this).addClass("ac_item_move");	
+						}).bind("mouseleave",null,function(){
+							$(this).removeClass("ac_item_move");
+						}).bind("click",null,function(){
+							var text = $(this).text();
+							var value = $(this).attr("v");
+							$this.val(text).data("data",{"text":text,"value":value});
+							ev.hide({"data":{"obj":$results}});
+							if(o.callback){
+								o.callback(text,value);
+							}
+						});
+						/*$("body").bind("click",null,function(){
+							$results.remove();
+						});*/
+						//$this.bind("mouseenter",{"obj":$results},ev.show).bind("mouseleave",{"obj":$results},ev.hide);
+					}
+				}
+				$this.keypress(function(event){
+				    var keycode = (event.keyCode ? event.keyCode : event.which);
+				    if(keycode == '13'){
+				    	ev.loadData();
+				    }
+				});
+				$this.focus(function(){
+					ev.loadData();
+				});
+				$this.click(function(e) {
+					ev.loadData();
+                });
+				$this.keyup(function(e) {
+                    ev.loadData();
+                });
+            });
+        },
+        renderDropdown : function(){
+        	var $this = $(this);
+        	var x = $this.position().left + 1;
+			var y = $this.position().top + $this.height();
+        	$this.closest("div").find(".ac_results").css({"top":y,"left":x});
+        	
+        }
+    });
+})(jQuery);
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+	$("#get").click(function(){
+		alert($("#t1").position().top+","+$("#t2").position().top);
+	});
+	
+	/*$(":text").click(function(){
+		var y = $(this).position().top;
+		var x = $(this).position().left;
+		
+		var html = '<div style="position:fixed;width:80px;height:50px;background:#abc123;left:'+x+'px;top:'+(y+20)+'px;"></div>';
+		$("body").prepend(html);
+	});*/
+	//$("#sss").scrollTop(800);
+	
+	$(":text").dropdown();
+});
+</script>
+
+</HEAD>
+<body onselectstart="return false;">
+	<div id="sss" style="width:600px;height:80px; overflow-y: auto; margin:0 auto; margin-top: 50px; background: #0070A9;">
+		<ul>
+			<li>
+				<input id="t1" type="text"/>
+			</li>
+			<li>
+				&nbsp;
+			</li>
+			<li>
+				&nbsp;
+			</li>
+			<li>&nbsp;
+			</li>
+			<li>&nbsp;
+			</li>
+			<li>&nbsp;
+			</li>
+			<li>&nbsp;
+			</li>
+			<li>&nbsp;
+			</li>
+			<li>&nbsp;
+			</li>
+			<li>
+				<input id="t2" type="text"/>
+			</li>
+		</ul>
+	</div>
+	
+	<input type="button" id="get" value="get"/>
+</body>
+</HTML>
